@@ -49,6 +49,10 @@ class TagorizeAPIConnector {
 		$this->settings['secret'] 	= $secret;
 		$this->settings['cache_age'] 	= API_CACHE_AGE;
 		$this->settings['response_type'] = 'array';
+		$this->settings['service_url'] 	 = API_SERVICE;
+		
+		// set for defaults
+		$this->custom_settings = array();
 	}
 	
 	private function get_setting($key) 
@@ -189,8 +193,11 @@ class TagorizeAPIConnector {
 		if ($this->debug) 
 		{
 			print("<pre>");
-			print_r(array_merge($this->settings, $this->custom_settings));
-			print_r($d);
+			if (sizeof($this->custom_settings) > 0) 
+			{
+				print_r(array('custom_settings'=>$this->custom_settings));
+			}
+			print_r(array('api_response'=>$d));
 			print("</pre>");
 		}
 		
@@ -365,7 +372,7 @@ class TagorizeAPIParams
 			{
 				$val = implode($delimiter, $val);
 			}
-			$str .= "$k=$val&";
+			$str .= "$k=" . urlencode($val) . "&";
 		}
 		return rtrim($str, '&');
 	}

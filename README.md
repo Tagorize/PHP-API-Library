@@ -21,7 +21,7 @@ Usage
 	include_once('class.TagorizeAPI.php');
 
 	// Create an API connector, passing in the API key and secret
-	$t = new TagorizeAPIConnector ('xxx', 'xxx');
+	$t = new TagorizeAPIConnector ('key-xxx', 'secret-xxx');
 	
 	// Parameters are passed into the connector object via a Params object, which is a simple key/value store that performs some simple validation rules to ensure that data being passed to the API won't get rejected
 	$p = new TagorizeAPIParams();
@@ -45,6 +45,12 @@ Usage
 	}
 	
 	unset($t);
+	
+Parameters
+====================
+
+All parameters sent via a `TagorizeAPIParameters` are URL encoded. Any params sent to the API that are not part of the method's signature are silently ignored.
+
 	
 Using the cache
 ====================
@@ -77,6 +83,9 @@ Supported in this version:
 
 Certain API calls may require a more frequent cache refresh, so developers can override the cache age set at initialisation by passing in a config array to the `call()` method
 
+Example
+--------------------
+
 	// Create the config object
 	$config = array(
 		'cache_age'=>60
@@ -87,9 +96,9 @@ Certain API calls may require a more frequent cache refresh, so developers can o
 	
 Overrides only last for that method call. As soon as execution has completed, values are restored to the ones set suring initialisation
 
-Debuggin
+Debugging API responses
 ====================
 
-Calling the `set_debug` method on a `TagorizeAPIConnector` class will output the returned JSON data to screen for debugging purposes.
+Calling the `set_debug` method on a `TagorizeAPIConnector` class will output the returned JSON data to screen for debugging purposes. Also included in the output are any override settings applied to the method call. 
 
 	$t->set_debug(true);
